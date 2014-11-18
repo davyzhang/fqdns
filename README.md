@@ -16,8 +16,10 @@ Distribute to different DNS server based on request domain names
 * fqdns可以工作在两个模式下面,一个是disp分发模式,以这个模式启动后,所有的dns请求会根据域名列表分发到对应的dns服务器上,比如一个国内,一个国外
 * 另外一个是resolver解析模式,这个模式启动的服务器将会等待其他服务器发送的tcp请求,然后返回tcp结果
 * 标准流程如下: 用户系统发出dns请求->fqdns收到标准dns请求后判断是否国内域名->国内域名使用国内dns解析后返回->国外域名通过tcp转发到远端fqdns上解析
+* disp模式的fqdns可以在本地启动,局域网机器上启动,也可以在公网服务器上启动,然后通过tcp和国外的fqdns通讯
 
-
+# 场景
+fqdns的设计目的是尽可能的绕开GFW的污染,获取能真实使用的ip,有部分应用并不原生支持socks5代理,dns解析会使用本地的dns服务器,如果出现被污染的情况将会无法使用,比如dropbox的installer
 
 # 编译和依赖
 golang
@@ -96,4 +98,7 @@ google.com
 
 # 启动方式
 `fqdns -config config.json -mode disp`
+
+# 客户端配置
+修改dns服务器地址为disp模式的fqdns
 
