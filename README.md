@@ -23,10 +23,10 @@ fqdns的设计目的是尽可能的绕开GFW的污染,获取能真实使用的ip
 
 # 编译和依赖
 golang
-[](http://golang.org)
+[golang.org](http://golang.org)
 
 golang dns库
-[](https://github.com/miekg/dns.git)
+[golang dns lib](https://github.com/miekg/dns.git)
 安装方法
 > go get github.com/miekg/dns
 
@@ -48,7 +48,7 @@ disp 模式
 * local 国内的dns服务器,
 * remote 转发的远端dns服务器
 * port 本地监听的端口,默认是53
-* pac 文件来自于这里[](https://github.com/breakwa11/gfw_whitelist/blob/master/whitelist.pac)
+* pac 文件来自于这里[thanks breakwa11](https://github.com/breakwa11/gfw_whitelist/blob/master/whitelist.pac)
 * white 白名单文件
 * black 黑名单文件
 * tcpremote 是否使用tcp方式请求远端remote服务器,false为使用标准dns的udp方式
