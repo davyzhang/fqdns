@@ -48,7 +48,7 @@ disp 模式
 * local 国内的dns服务器,
 * remote 转发的远端dns服务器
 * port 本地监听的端口,默认是53
-* pac 文件来自于这里[https://github.com/breakwa11/gfw_whitelist/blob/master/whitelist.pac]()
+* pac 文件来自于这里[](https://github.com/breakwa11/gfw_whitelist/blob/master/whitelist.pac)
 * white 白名单文件
 * black 黑名单文件
 * tcpremote 是否使用tcp方式请求远端remote服务器,false为使用标准dns的udp方式
