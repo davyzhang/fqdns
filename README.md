@@ -23,10 +23,10 @@ fqdns的设计目的是尽可能的绕开GFW的污染,获取能真实使用的ip
 
 # 编译和依赖
 golang
-[http://golang.org]()
+[](http://golang.org)
 
 golang dns库
-[https://github.com/miekg/dns.git]()
+[](https://github.com/miekg/dns.git)
 安装方法
 > go get github.com/miekg/dns
 
