@@ -19,7 +19,7 @@ Distribute to different DNS server based on request domain names
 * disp模式的fqdns可以在本地启动,局域网机器上启动,也可以在公网服务器上启动,然后通过tcp和国外的fqdns通讯
 
 # 场景
-fqdns的设计目的是尽可能的绕开GFW的污染,获取能真实使用的ip,有部分应用并不原生支持socks5代理,dns解析会使用本地的dns服务器,如果出现被污染的情况将会无法使用,比如dropbox的installer
+fqdns的设计目的是尽可能的绕开GFW的污染,获取能真实使用的ip,有部分应用并不原生支持socks5代理,dns解析会使用本地的dns服务器,如果出现被污染的情况将会无法使用,比如dropbox的installer.
 
 # 编译和依赖
 golang
@@ -45,13 +45,13 @@ disp 模式
 	"tcpremote":true
 }
 ```
-local 国内的dns服务器,
-remote 转发的远端dns服务器
-port 本地监听的端口,默认是53
-pac 文件来自于这里[https://github.com/breakwa11/gfw_whitelist/blob/master/whitelist.pac]()
-white 白名单文件
-black 黑名单文件
-tcpremote 是否使用tcp方式请求远端remote服务器,false为使用标准dns的udp方式
+* local 国内的dns服务器,
+* remote 转发的远端dns服务器
+* port 本地监听的端口,默认是53
+* pac 文件来自于这里[https://github.com/breakwa11/gfw_whitelist/blob/master/whitelist.pac]()
+* white 白名单文件
+* black 黑名单文件
+* tcpremote 是否使用tcp方式请求远端remote服务器,false为使用标准dns的udp方式
 
 
 resolver模式
@@ -64,13 +64,13 @@ resolver模式
 	"tcpremote":false
 }
 ```
-local 未使用
-remote 真实解析的dns服务器
-port 监听的tcp端口,对应disp模式配置中的remote
-white 未使用
-black 未使用
-pac  未使用
-tcpremote 未使用
+* local 未使用
+* remote 真实解析的dns服务器
+* port 监听的tcp端口,对应disp模式配置中的remote
+* white 未使用
+* black 未使用
+* pac  未使用
+* tcpremote 未使用
 
 ## 黑名单白名单
 ### white
