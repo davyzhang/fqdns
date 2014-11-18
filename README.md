@@ -3,7 +3,7 @@
 
 # Introduction
 Distribute to different DNS server based on request domain names
-根据域名列表转发到不同的dns服务器
+根据域名列表转发到不同的dns服务器以获取未被污染的ip
 
 # 原理
 * fqdns维护一个国内域名的列表,在这个列表中的域名通过国内的dns解析,确保正确的能区分电信/网通/cdn
