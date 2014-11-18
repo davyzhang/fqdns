@@ -1,0 +1,7 @@
+{
+	"local":[],
+	"remote":["8.8.8.8:53"],
+	"port":37241,
+	"white":"",
+	"tcpremote":false
+}
