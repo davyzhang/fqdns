@@ -26,13 +26,13 @@ golang
 golang dns库
 [https://github.com/miekg/dns.git]()
 安装方法
-`go get github.com/miekg/dns`
+> go get github.com/miekg/dns
 
 # 配置
 fqdns有1个配置文件和3个列表文件
 ## config 配置文示例
 disp 模式
-`
+```
 {
 	"local":["114.114.114.114:53"],
 	"remote":["127.0.0.1:37241"],
@@ -42,7 +42,7 @@ disp 模式
 	"black":"/Users/yourname/fqdns/black",
 	"tcpremote":true
 }
-`
+```
 local 国内的dns服务器,
 remote 转发的远端dns服务器
 port 本地监听的端口,默认是53
@@ -53,7 +53,7 @@ tcpremote 是否使用tcp方式请求远端remote服务器,false为使用标准d
 
 
 resolver模式
-`
+```
 {
 	"local":[],
 	"remote":["8.8.8.8:53"],
@@ -61,7 +61,7 @@ resolver模式
 	"white":"",
 	"tcpremote":false
 }
-`
+```
 local 未使用
 remote 真实解析的dns服务器
 port 监听的tcp端口,对应disp模式配置中的remote
@@ -71,8 +71,8 @@ pac  未使用
 tcpremote 未使用
 
 ## 黑名单白名单
-white
-`
+### white
+```
 #domains in this will goes to GFWed/local dns ie. 114.114.114.114
 #expected cdn domains need to use local dns to dispatch nearest servers
 #one domain pattern per line, support wildcards match ie. *.cloudfront.com
@@ -80,9 +80,9 @@ white
 *.cloudfront.net
  cdn.acewebgames.com
 
-`
-black
-`
+```
+### black
+```
 #domains in this file will goes to remote resolver
 #use to make sure domains resolved outside GFW, even it is in whitelist.pac
 #wildcards match supported
@@ -92,8 +92,8 @@ black
 *.googlecode.com
 google.com
 
-`
+```
 
-## 启动方式
+# 启动方式
 `fqdns -config config.json -mode disp`
 
