@@ -80,8 +80,8 @@ resolver模式
 #one domain pattern per line, support wildcards match ie. *.cloudfront.com
 *.akamai.net
 *.cloudfront.net
- cdn.acewebgames.com
-
+cdn.acewebgames.com
+*.cn
 ```
 ### black
 ```

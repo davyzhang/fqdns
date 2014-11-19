@@ -110,3 +110,18 @@ func TestExpandHome(t *testing.T) {
 		t.Errorf("home expand not right %s", tstr)
 	}
 }
+
+func TestShortenDomain(t *testing.T) {
+	r := ShortenDomain("www.qq.com")
+	if r != "qq.com" {
+		t.Errorf("www.qq.com should be qq.com get %s", r)
+	}
+	r = ShortenDomain("p.p.qq.com")
+	if r != "qq.com" {
+		t.Errorf("www.qq.com should be qq.com get %s", r)
+	}
+	r = ShortenDomain("qq.com")
+	if r != "qq.com" {
+		t.Errorf("www.qq.com should be qq.com get %s", r)
+	}
+}

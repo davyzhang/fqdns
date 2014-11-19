@@ -41,13 +41,13 @@ func nsDispatch(w dns.ResponseWriter, req *dns.Msg) {
 	for _, q := range req.Question {
 		nssvr := ""
 		d := strings.TrimRight(q.Name, ".")
-		if IsDomainIn(d, lwhite) { //white list domains goes to local
-			log.Println("hit white list")
-			nssvr = fconfig.Local[0]
-		} else if IsDomainIn(d, lblack) { //black list domains goes to remote
+		if IsDomainIn(d, lblack) { //black list domains goes to remote
 			log.Println("hit black list")
 			nssvr = fconfig.Remote[0]
-		} else if _, ok := dpac[d]; ok {
+		} else if IsDomainIn(d, lwhite) { //white list domains goes to local
+			log.Println("hit white list")
+			nssvr = fconfig.Local[0]
+		} else if _, ok := dpac[ShortenDomain(d)]; ok {
 			log.Println("hit pac")
 			nssvr = fconfig.Local[0] //todo:rand to dispatch
 		} else {

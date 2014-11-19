@@ -76,3 +76,12 @@ func ExpandHomePath(p string) string {
 	}
 	return p
 }
+
+func ShortenDomain(d string) string {
+	parts := strings.Split(d, ".")
+	l := len(parts)
+	if l > 2 {
+		return parts[l-2] + "." + parts[l-1]
+	}
+	return d
+}

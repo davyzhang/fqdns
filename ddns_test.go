@@ -10,20 +10,28 @@ import (
 
 func DummyHandler(w dns.ResponseWriter, req *dns.Msg) {
 	//log.Printf("req %s", req)
-	if req.Question[0].Name == "test_goes_to_local." || req.Question[0].Name == "sss.xxoo.com." {
+	qName := req.Question[0].Name
+	if qName == "test_goes_to_local." || qName == "sss.xxoo.com." {
 		m := new(dns.Msg)
 		m.SetReply(req)
 		m.Answer = make([]dns.RR, 1)
 		m.Answer[0], _ = dns.NewRR("test_goes_to_local.	404	IN	A	182.140.167.44")
 		w.WriteMsg(m)
+		return
 	}
-	if req.Question[0].Name == "test_goes_to_remote." || req.Question[0].Name == "sss.xyz.com." {
+	if qName == "test_goes_to_remote." || qName == "sss.xyz.com." || qName == "x.black.com." {
 		m := new(dns.Msg)
 		m.SetReply(req)
 		m.Answer = make([]dns.RR, 1)
 		m.Answer[0], _ = dns.NewRR("test_goes_to_remote.	404	IN	A	182.140.167.43")
 		w.WriteMsg(m)
+		return
 	}
+	m := new(dns.Msg)
+	m.SetReply(req)
+	m.Answer = make([]dns.RR, 1)
+	m.Answer[0], _ = dns.NewRR("no_found.	404	IN	A	182.140.167.44")
+	w.WriteMsg(m)
 }
 
 func SetUpUDP(port int) {
@@ -94,4 +102,12 @@ func TestDistribute(t *testing.T) {
 	if msg.Answer[0].String() != "test_goes_to_local.	404	IN	A	182.140.167.44" {
 		t.Fatalf("white list wrong %s\n", msg.Answer[0].String())
 	}
+
+	lblack = []string{"x.black.com"}
+	lwhite = []string{"x.black.com"}
+	msg = newDNSReq("udp", "x.black.com.", "localhost:9999")
+	if msg.Answer[0].String() != "test_goes_to_remote.	404	IN	A	182.140.167.43" {
+		t.Fatalf("white list wrong %s\n", msg.Answer[0].String())
+	}
+
 }
