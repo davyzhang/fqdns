@@ -11,7 +11,7 @@ Distribute to different DNS server based on request domain names
 
 # 原理
 * fqdns维护一个国内域名的列表,在这个列表中的域名通过国内的dns解析,确保正确的能区分电信/网通/cdn
-* 不在列表里面的域名将会发送到远端服务器解析,比如opendns,但是如果在不通过vpn路由的情况下,数据包依然可能会被污染
+* 不在列表里面的域名将会发送到远端服务器解析,比如opendns
 * fqns可以配置使用tcp的方式和远端的fqdns服务器通讯,让远端的fqns服务器解析完成之后通过tcp返回给国内的dns分发服务器,
 * 考虑到有很多网站是使用cdn做分发,fqdns有一个白名单和黑名单,白名单的域名一定会使用国内dns解析,比如各种cdn;黑名单的域名一定使用远端解析
 
