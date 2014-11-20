@@ -3,7 +3,7 @@ Fqdns
 
 # Introduction
 Distribute to different DNS server based on request domain names
-根据域名列表转发到不同的dns服务器以获取未被污染的ip
+根据域名列表转发到不同的dns服务器
 
 
 # 预编译包下载地址
@@ -22,7 +22,7 @@ Distribute to different DNS server based on request domain names
 * disp模式的fqdns可以在本地启动,局域网机器上启动,也可以在公网服务器上启动,然后通过tcp和国外的fqdns通讯
 
 # 场景
-fqdns的设计目的是尽可能的绕开GFW的污染,获取能真实使用的ip,有部分应用并不原生支持socks5代理,dns解析会使用本地的dns服务器,如果出现被污染的情况将会无法使用,比如dropbox的installer.
+fqdns的设计目的是获取能真实使用的ip,有部分应用并不原生支持socks5代理,dns解析会使用本地的dns服务器
 
 # 编译和依赖
 golang
