@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"os/user"
 	"testing"
 )
@@ -11,11 +12,30 @@ var wall_proxy = "SOCKS5 127.0.0.1:1080;";
 var nowall_proxy = "DIRECT;";
 var direct = "DIRECT;";
 
-var domains = {
-	"0-100s.com": 1,
-	"001en.com": 1,
-	"001job.com": 1,
-	"001sj.net": 1
+/*
+ * Copyright (C) 2014 breakwa11
+ * https://github.com/breakwa11/gfw_whitelist
+ */
+
+var white_domains = {"am":{
+"126":1,
+"51":1
+},"biz":{
+"7daysinn":1,
+"changan":1,
+"chinafastener":1,
+"cnbearing":1,
+"menchuang":1,
+"qianyan":1
+},"tw":{
+"taiwandao":1
+},"vg":{
+"loli":1
+},"xn--fiqs8s":{
+"":1
+},"za":{
+"org":1
+}
 };
 
 var hasOwnProperty = Object.hasOwnProperty;
@@ -30,7 +50,37 @@ function check_ipv4(host) {
 		return true;
 	}
 }
+function isInDomains(domain_dict, host) {
+	var suffix;
+	var pos1 = host.lastIndexOf('.');
 
+	suffix = host.substring(pos1 + 1);
+	if (suffix == "cn") {
+		return true;
+	}
+
+	var domains = domain_dict[suffix];
+	if ( domains === undefined ) {
+		return true;
+	}
+	host = host.substring(0, pos1);
+	var pos = host.lastIndexOf('.');
+
+	while(1) {
+		if (pos <= 0) {
+			if (hasOwnProperty.call(domains, host)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		suffix = host.substring(pos + 1);
+		if (hasOwnProperty.call(domains, suffix)) {
+			return true;
+		}
+		pos = host.lastIndexOf('.', pos - 1);
+	}
+}
 function FindProxyForURL(url, host) {
 	if ( isPlainHostName(host) === true ) {
 		return direct;
@@ -38,38 +88,21 @@ function FindProxyForURL(url, host) {
 	if ( check_ipv4(host) === true ) {
 		return nowall_proxy;
 	}
-	var suffix;
-	var pos1 = host.lastIndexOf('.');
-	var pos = host.lastIndexOf('.', pos1 - 1);
-
-	suffix = host.substring(pos1 + 1);
-	if (suffix == "cn") {
+	if ( isInDomains(white_domains, host) === true ) {
 		return nowall_proxy;
 	}
-
-	while(1) {
-		if (pos == -1) {
-			if (hasOwnProperty.call(domains, host)) {
-				return nowall_proxy;
-			} else {
-				return wall_proxy;
-			}
-		}
-		suffix = host.substring(pos + 1);
-		if (hasOwnProperty.call(domains, suffix)) {
-			return nowall_proxy;
-		}
-		pos = host.lastIndexOf('.', pos - 1);
-	}
+	return wall_proxy;
 }
-
-
 `)
 
 func TestReadPacDomains(t *testing.T) {
 	names := GetDomainsFromPac(c)
-	if _, ok := names["0-100s.com"]; !ok {
-		t.Fatalf("want %s get %s", "0-100s.com", ok)
+	if v, ok := names["7daysinn.biz"]; !ok {
+
+		for k, v := range names {
+			fmt.Println(k, " > ", v)
+		}
+		t.Fatalf("want %s get %v", "7daysinn.biz", v)
 	}
 }
 

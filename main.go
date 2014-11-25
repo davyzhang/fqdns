@@ -7,11 +7,15 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"path"
+	"path/filepath"
 	"syscall"
 )
 
 func main() {
-	config := flag.String("config", "", "config file for fqdns")
+	p, _ := filepath.Abs(os.Args[0])
+	appPath := filepath.Dir(p)
+	config := flag.String("config", path.Join(appPath, "config.json"), "config file for fqdns")
 	mode := flag.String("mode", "", "local dispatcher or outside resolver disp/resolver")
 	flag.Parse()
 
@@ -36,6 +40,21 @@ func main() {
 		fconfig.White = ExpandHomePath(fconfig.White)
 		fconfig.Black = ExpandHomePath(fconfig.Black)
 		fconfig.Pac = ExpandHomePath(fconfig.Pac)
+
+		guess := path.Join(appPath, fconfig.White)
+		if !IsFileExists(fconfig.White) && IsFileExists(guess) {
+			fconfig.White = guess
+		}
+
+		guess = path.Join(appPath, fconfig.Pac)
+		if !IsFileExists(fconfig.Pac) && IsFileExists(guess) {
+			fconfig.Pac = guess
+		}
+
+		guess = path.Join(appPath, fconfig.Black)
+		if !IsFileExists(fconfig.Black) && IsFileExists(guess) {
+			fconfig.Black = guess
+		}
 
 		c, err = ioutil.ReadFile(fconfig.Pac)
 		if err != nil {
@@ -62,7 +81,7 @@ func main() {
 	for {
 		select {
 		case s := <-sig:
-			log.Fatalf("Signal (%d) received, stopping\n", s)
+			log.Fatalf("Signal (%v) received, stopping\n", s)
 		}
 	}
 }

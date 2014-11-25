@@ -3,8 +3,10 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"encoding/json"
 	"io"
 	"log"
+	"os"
 	"os/user"
 	"path"
 	"regexp"
@@ -16,14 +18,24 @@ func GetDomainsFromPac(c []byte) map[string]bool {
 	//if err != nil {
 	//	log.Printf("read file error %s", err)
 	//}
-	reg, err := regexp.Compile(`\".*\":`)
+	reg, err := regexp.Compile(`(?sU:\{.*\}\n\};)`)
 	if err != nil {
 		log.Printf("regex pattern compile error %s", err)
 	}
-	names := reg.FindAll(c, -1)
+	names := reg.Find(c)
+	names = bytes.TrimRight(names, ";")
+	var tmp map[string]map[string]int
+	err = json.Unmarshal(names, &tmp)
+	if err != nil {
+		log.Printf("pac file format error %s", err)
+		return nil
+	}
 	result := make(map[string]bool, 0)
-	for _, n := range names {
-		result[string(bytes.TrimLeft(bytes.TrimRight(n, "\":"), "\""))] = true
+	for k, v := range tmp {
+		for d1, _ := range v {
+			domain := d1 + "." + k
+			result[domain] = true
+		}
 	}
 	return result
 }
@@ -84,4 +96,11 @@ func ShortenDomain(d string) string {
 		return parts[l-2] + "." + parts[l-1]
 	}
 	return d
+}
+
+func IsFileExists(filename string) bool {
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		return false
+	}
+	return true
 }
